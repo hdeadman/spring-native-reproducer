@@ -61,8 +61,8 @@ jobs:
         name: "Checkout overlay"
       - uses: actions/cache@v2
         with:
-          path: ~/.mvn
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          path: ~/.mvn/wrapper
+          key: ${{ runner.os }}-maven-wrapper-${{ hashFiles('.mvn/wrapper/maven-wrapper.properties') }}
       - uses: actions/cache@v2
         with:
           path: ~/.m2/repository
