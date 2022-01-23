@@ -1,0 +1,74 @@
+name: Build
+
+env:
+  JAVA_OPTS: "-Xms512m -Xmx6048m -Xss128m -XX:ReservedCodeCacheSize=512m -server -XX:+UseG1GC"
+  GRADLE_OPTS: "-Xms512m -Xmx6048m -Xss128m -XX:ReservedCodeCacheSize=512m -server -XX:+UseG1GC"
+  TERM: xterm-256color
+  JDK_CURRENT: 11.0.13
+  JDK_DISTRIBUTION: liberica
+  NATIVE_KIT_VERSION: 21.3.0
+  NATIVE_KIT: bellsoft-liberica-vm-openjdk11-21.3.0-macos-amd64.tar.gz
+  NATIVE_KIT_FOLDER: bellsoft-liberica-vm-openjdk11-21.3.0
+  CAS_REPO: 'hdeadman/cas'
+  CAS_BRANCH: 'native_refresh_scope'
+  BUILD_CAS: "true"
+
+##########################################################################
+
+on:
+  push:
+    branches: [ main ]
+
+##########################################################################
+
+jobs:
+
+##########################################################################
+
+  build-gradle:
+    continue-on-error: false
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v2
+        name: "Checkout overlay"
+      - name: Setup Gradle Wrapper Cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}
+      - uses: actions/cache@v2
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+      - name: "Build with Gradle"
+        run: ./test-gradle.sh
+
+  build-maven:
+    continue-on-error: false
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v2
+        name: "Checkout overlay"
+      - uses: actions/cache@v2
+        with:
+          path: ~/.mvn
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+      - uses: actions/cache@v2
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-repo-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-repo
+      - name: "Build with Maven"
+        run: ./test-maven.sh
+
