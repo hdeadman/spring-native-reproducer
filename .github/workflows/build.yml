@@ -47,7 +47,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
       - name: "Build with Gradle"
-        run: ./test-gradle.sh
+        run: ./test-gradle.sh --server.port=8080
 
   build-maven:
     continue-on-error: false
@@ -70,5 +70,27 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-repo
       - name: "Build with Maven"
-        run: ./test-maven.sh
+        run: ./test-maven.sh --server.port=8080
 
+  build-maven-no-server-properties:
+    continue-on-error: false
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v2
+        name: "Checkout overlay"
+      - uses: actions/cache@v2
+        with:
+          path: ~/.mvn/wrapper
+          key: ${{ runner.os }}-maven-wrapper-${{ hashFiles('.mvn/wrapper/maven-wrapper.properties') }}
+      - uses: actions/cache@v2
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-repo-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-repo
+      - name: "Build with Maven"
+        run: ./test-maven.sh

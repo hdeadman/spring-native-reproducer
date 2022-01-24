@@ -2,7 +2,7 @@ echo Building with gradle
 ./gradlew clean build
 
 echo Running gradle version
-java -DspringAot=true -jar  build/libs/demo-refresh-scope.jar &
+java -DspringAot=true -jar  build/libs/demo-refresh-scope.jar $@ &
 
 sleep 30
 echo Shutting down via shutdown actuator

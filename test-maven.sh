@@ -2,7 +2,7 @@ echo Buidling with maven
 ./mvnw clean package
 
 echo Running maven version
-java -DspringAot=true -jar  target/demo-refresh-scope.jar &
+java -DspringAot=true -jar  target/demo-refresh-scope.jar $@ &
 
 sleep 30
 echo Shutting down via shutdown actuator
