@@ -1,3 +1,4 @@
+#!/bin/bash
 echo Buidling with maven
 ./mvnw clean package
 
