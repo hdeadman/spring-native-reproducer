@@ -1,3 +1,4 @@
+#!/bin/bash
 echo Building with gradle
 ./gradlew clean build
 

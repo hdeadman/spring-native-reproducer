@@ -75,6 +75,7 @@ dependencies {
         implementation 'org.springframework.boot:spring-boot-starter-web'
         implementation 'org.springframework.cloud:spring-cloud-function-web'
         implementation 'org.springframework.cloud:spring-cloud-context'
+        implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'
         implementation "org.springframework.experimental:spring-native:${springNativeVersion}"
 // https://mvnrepository.com/artifact/org.aspectj/aspectjweaver
     implementation group: 'org.aspectj', name: 'aspectjweaver', version: '1.9.7'
