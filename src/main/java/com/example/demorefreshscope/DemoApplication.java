@@ -13,7 +13,6 @@ public class DemoApplication {
 				.web(WebApplicationType.SERVLET)
 				.logStartupInfo(true)
 				.run(args);
-		SpringApplication.run(DemoApplication.class, args);
 	}
 
 }

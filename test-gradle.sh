@@ -2,6 +2,13 @@
 echo Building with gradle
 ./gradlew clean build
 
+echo ""
+echo "###################################"
+echo Build Finished
+echo "###################################"
+echo "###################################"
+echo "###################################"
+
 echo Running gradle version
 java -DspringAot=true -jar  build/libs/demo-refresh-scope.jar $@ &
 
